@@ -3,8 +3,14 @@ import 'package:flutter_basic_shopping_cart_course/models/Food.dart';
 
 class FoodView extends StatelessWidget {
   final Food food;
-  final Function addToCart;
-  FoodView(this.addToCart, {this.food});
+  final bool inCart;
+  final Function onPressed;
+  FoodView({this.onPressed, this.food, this.inCart = false});
+
+  void _addFoodToCart(context) {
+    onPressed(food);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +43,7 @@ class FoodView extends StatelessWidget {
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {
-                  addToCart(food);
-                  Navigator.pop(context);
-                },
+                onPressed: !inCart ? () => _addFoodToCart(context) : null,
                 child: Text('Add to cart'),
               ),
             ),

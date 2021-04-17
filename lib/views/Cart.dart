@@ -3,9 +3,9 @@ import 'package:flutter_basic_shopping_cart_course/components/FoodCard.dart';
 import 'package:flutter_basic_shopping_cart_course/models/Food.dart';
 
 class Cart extends StatefulWidget {
-  final Function removeFromCart;
+  final Function onPressed;
   final List<Food> cartFoods;
-  Cart(this.removeFromCart, {this.cartFoods});
+  Cart({this.onPressed, this.cartFoods});
 
   @override
   _CartState createState() => _CartState();
@@ -44,7 +44,7 @@ class _CartState extends State<Cart> {
             return FoodCard(
               food: _cartFoods[index],
               onDismissed: () {
-                widget.removeFromCart(_cartFoods[index]);
+                widget.onPressed(_cartFoods[index]);
                 setState(() {
                   _cartFoods = List.from(_cartFoods)
                     ..removeWhere((food) => food.id == _cartFoods[index].id);

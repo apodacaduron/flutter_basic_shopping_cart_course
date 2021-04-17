@@ -209,7 +209,8 @@ class _ShoppingListState extends State<ShoppingList> {
               Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => Cart(removeFromCart, cartFoods: cart),
+                  builder: (context) =>
+                      Cart(onPressed: removeFromCart, cartFoods: cart),
                 ),
               );
             },
@@ -228,7 +229,12 @@ class _ShoppingListState extends State<ShoppingList> {
               Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => FoodView(addToCart, food: food),
+                  builder: (context) => FoodView(
+                      onPressed: addToCart,
+                      food: food,
+                      inCart: cart.indexWhere(
+                              (cartFood) => cartFood.id == food.id) >
+                          -1),
                 ),
               );
             },
@@ -337,8 +343,14 @@ class FoodCard extends StatelessWidget {
 // Food view
 class FoodView extends StatelessWidget {
   final Food food;
-  final Function addToCart;
-  FoodView(this.addToCart, {this.food});
+  final bool inCart;
+  final Function onPressed;
+  FoodView({this.onPressed, this.food, this.inCart = false});
+
+  void _addFoodToCart(context) {
+    onPressed(food);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -371,10 +383,7 @@ class FoodView extends StatelessWidget {
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {
-                  addToCart(food);
-                  Navigator.pop(context);
-                },
+                onPressed: !inCart ? () => _addFoodToCart(context) : null,
                 child: Text('Add to cart'),
               ),
             ),
@@ -389,9 +398,9 @@ class FoodView extends StatelessWidget {
 // 8
 // Cart view
 class Cart extends StatefulWidget {
-  final Function removeFromCart;
+  final Function onPressed;
   final List<Food> cartFoods;
-  Cart(this.removeFromCart, {this.cartFoods});
+  Cart({this.onPressed, this.cartFoods});
 
   @override
   _CartState createState() => _CartState();
@@ -430,7 +439,7 @@ class _CartState extends State<Cart> {
             return FoodCard(
               food: _cartFoods[index],
               onDismissed: () {
-                widget.removeFromCart(_cartFoods[index]);
+                widget.onPressed(_cartFoods[index]);
                 setState(() {
                   _cartFoods = List.from(_cartFoods)
                     ..removeWhere((food) => food.id == _cartFoods[index].id);

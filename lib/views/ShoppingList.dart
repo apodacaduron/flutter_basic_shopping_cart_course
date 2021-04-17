@@ -46,7 +46,8 @@ class _ShoppingListState extends State<ShoppingList> {
               Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => Cart(removeFromCart, cartFoods: cart),
+                  builder: (context) =>
+                      Cart(onPressed: removeFromCart, cartFoods: cart),
                 ),
               );
             },
@@ -65,7 +66,12 @@ class _ShoppingListState extends State<ShoppingList> {
               Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  builder: (context) => FoodView(addToCart, food: food),
+                  builder: (context) => FoodView(
+                      onPressed: addToCart,
+                      food: food,
+                      inCart: cart.indexWhere(
+                              (cartFood) => cartFood.id == food.id) >
+                          -1),
                 ),
               );
             },
