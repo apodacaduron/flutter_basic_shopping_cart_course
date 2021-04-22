@@ -165,6 +165,16 @@ class Food {
         readableServingSize = json["readableServingSize"] as String,
         image = json["image"] as String,
         imageType = json["imageType"] as String;
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'restaurantChain': restaurantChain,
+    'servingSize': servingSize,
+    'readableServingSize': readableServingSize,
+    'image': image,
+    'imageType': imageType,
+  };
 }
 // End food model
 
