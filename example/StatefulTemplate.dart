@@ -6,6 +6,12 @@ class StatefulTemplate extends StatefulWidget {
 }
 
 class _StatefulTemplateState extends State<StatefulTemplate> {
+  
+  @override
+  void initState() {
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container();
